@@ -7,10 +7,11 @@ CoreOS units to deploy jekyll blog with vulcand proxy
 1. CoreOS Cluster
 
 ## Start
+For testing
 
-1. fleetctl start vulcan.service
-2. etcdctl set "/vulcand/hosts/blog.firefight.io/locations/home/path" '/.*'
-3. fleetctl start blog-*
+1. etcdctl set "/vulcand/hosts/blog.firefight.io/locations/home/path" '/.*'
+2. fleetctl start blog-*
+3. fleetctl start vulcan.service
 
 ## TODO
 * Add webhooks to call when git commit or docker index build
