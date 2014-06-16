@@ -1,0 +1,15 @@
+[Unit]
+Description=Register for blog
+BindsTo=blog-v1-00.service
+After=blog-v1-00.service
+
+[Service]
+EnvironmentFile=/etc/environment
+RemainAfterExit=yes
+ExecStart=/bin/sh -c "/bin/etcdctl set \"/vulcand/upstreams/blog/endpoints/blog-register-v1-00.service\" http://$COREOS_PUBLIC_IPV4:8080; \
+  /bin/etcdctl set \"/vulcand/hosts/blog.firefight.io/locations/home/path\" '/.*'; \
+  /bin/etcdctl set /vulcand/hosts/blog.firefight.io/locations/home/upstream blog"
+ExecStop=/bin/sh -c "/bin/etcdctl rm /vulcand/upstreams/blog/endpoints/blog-register-v1-00.service"
+
+[X-Fleet]
+X-ConditionMachineOf=blog-v1-00.service

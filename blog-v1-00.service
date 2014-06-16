@@ -1,0 +1,14 @@
+[Unit]
+Description=blog-v1
+After=blog-storage-v1-00.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=/usr/bin/docker pull firefightio/nginx
+ExecStart=/bin/bash -c '/usr/bin/docker start -a blog-v1 || /usr/bin/docker run --name blog-v1 --volumes-from blog-storage-v1 -p 8080:80  firefightio/nginx'
+ExecStop=/bin/bash -c '/usr/bin/docker stop blog-v1; /usr/bin/docker stop blog-storage-v1'
+ExecStopPost=/bin/bash -c '/usr/bin/docker rm blog-v1; /usr/bin/docker rm blog-storage-v1'
+
+[X-Fleet]
+X-Conflicts=blog-v1-*.service
+X-ConditionMachineOf=blog-storage-v1-00.service

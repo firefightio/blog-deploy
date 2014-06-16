@@ -1,0 +1,11 @@
+[Unit]
+Description=blog-storage-v1
+After=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=/usr/bin/docker pull firefightio/jekyll-build
+ExecStart=/bin/bash -c '/usr/bin/docker start -a blog-storage-v1 || /usr/bin/docker run --name blog-storage-v1 firefightio/jekyll-build'
+
+[X-Fleet]
+X-Conflicts=blog-storage-v1-*.service
